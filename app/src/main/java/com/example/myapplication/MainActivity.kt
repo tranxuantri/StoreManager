@@ -7,6 +7,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import com.example.myapplication.db.AppDatabase
 import com.example.myapplication.db.Product
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,8 +23,12 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        val db = AppDatabase.newInstance(this)
-        val productDao = db.productDao()
-        val products: List<Product> = productDao.getAll()
+//        val db = AppDatabase.newInstance(this)
+//        val productDao = db.productDao()
+//        val products: List<Product> = productDao.getAll()
+
+        val db = FirebaseDatabase.getInstance()
+        val reference = db.getReference("message")
+        reference.setValue("Hello World")
     }
 }

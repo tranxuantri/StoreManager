@@ -1,0 +1,25 @@
+- Quản lý số lượng hàng hóa còn trong kho
+- Quét barcode (nhập hàng, lấy thông tin hàng, nhập chi tiết đơn hàng)
+	+ Nhập hàng
+		* Tên hàng
+		* Mã hàng
+		* Đơn giá
+		* ĐVT
+		* Số lượng nhập kho
+	+ Lấy thông tin hàng
+		* Tên hàng
+		* Mã hàng
+		* Đơn giá
+		* ĐVT
+		* Số lượng trong kho
+	+ Nhập chi tiết đơn hàng
+		* Tên hàng
+		* Đơn giá
+		* Số lượng bán
+- Tạo đơn hàng
+	+ Tên khách (nhập tên khách, hiển thị suggestion nếu có trong db)
+	+ sđt (autofill nếu đã có thông tin khách trong db, nhập nếu chưa có thông tin)
+	+ hàng hóa(số lượng + đơn giá)
+	+ ngày mua
+	+ Tổng tiền
+	+ Phương thức thanh toán (CK | tiền mặt)

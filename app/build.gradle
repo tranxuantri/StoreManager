@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -51,6 +52,7 @@ dependencies {
 
     // Barcode scanning API
     implementation 'com.google.mlkit:barcode-scanning:17.0.2'
+    implementation 'com.google.firebase:firebase-database:19.2.1'
 
     // CameraX library
     def camerax_version = "1.0.1"
