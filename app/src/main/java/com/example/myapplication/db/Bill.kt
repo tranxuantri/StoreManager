@@ -1,12 +1,19 @@
 package com.example.myapplication.db
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.*
 
-class Bill(
+@Entity(tableName = "bill")
+data class Bill(
+    @PrimaryKey(autoGenerate = true)
     val _id: Int,
-    val bill_code: String,
+    @ColumnInfo(name = "bill_code")
+    val billCode: String,
     val date: Date,
     val customer: String,
+    @ColumnInfo(name = "total_price")
     val totalPrice: String,
     val status: String
 )

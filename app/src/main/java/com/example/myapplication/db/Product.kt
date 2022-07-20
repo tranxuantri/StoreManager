@@ -1,5 +1,6 @@
 package com.example.myapplication.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -11,5 +12,6 @@ class Product(
     val code: String,
     val price: Int,
     val unit: String,
+    @ColumnInfo(name = "quantity_stock")
     val quantityInStock: Int
 )

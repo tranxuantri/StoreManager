@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
+import com.example.myapplication.db.AppDatabase
+import com.example.myapplication.db.Product
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,5 +21,9 @@ class MainActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
+
+        val db = AppDatabase.newInstance(this)
+        val productDao = db.productDao()
+        val products: List<Product> = productDao.getAll()
     }
 }

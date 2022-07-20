@@ -8,11 +8,11 @@ import androidx.room.RoomDatabase
 abstract class AppDatabase : RoomDatabase() {
 
     companion object {
-        fun newInstance(context: Context): KalixShoesDAO? =
-            Room.databaseBuilder(context, AppDatabase::class.java, "db-kalix-shoes")
-                .allowMainThreadQueries().build().kalixShoesDAO
-
+        fun newInstance(context: Context) =
+            Room.databaseBuilder(context, AppDatabase::class.java, "store-manager").build()
     }
 
-    abstract val kalixShoesDAO: KalixShoesDAO?
+    abstract fun productDao(): ProductDAO
+    abstract fun billDetailDao() : BillDetailDAO
+
 }

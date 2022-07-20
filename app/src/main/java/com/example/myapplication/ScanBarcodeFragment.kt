@@ -1,17 +1,26 @@
 package com.example.myapplication
 
-import android.graphics.Bitmap
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.ui.NavigationUI
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions
-import com.google.mlkit.vision.barcode.BarcodeScanning
-import com.google.mlkit.vision.barcode.common.Barcode
-import com.google.mlkit.vision.common.InputImage
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.example.myapplication.databinding.FragmentScanBarcodeBinding
+import com.example.myapplication.utility.BarcodeAnalyzer
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,9 +33,18 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ScanBarcodeFragment : Fragment() {
+    private lateinit var mContext: Context
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var binding: FragmentScanBarcodeBinding
+
+    private lateinit var cameraExecutor: ExecutorService
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mContext = context;
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,32 +59,57 @@ class ScanBarcodeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scan_barcode, container, false)
+        binding = FragmentScanBarcodeBinding.inflate(layoutInflater)
+        cameraExecutor = Executors.newSingleThreadExecutor()
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val option = BarcodeScannerOptions.Builder()
-            .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS, Barcode.FORMAT_AZTEC).build()
-        var result:String? = null
-        val scanner = BarcodeScanning.getClient(option)
-        scanner.process(InputImage.fromBitmap(Bitmap.createBitmap()))
-            .addOnSuccessListener { barcodes ->
-                run {
-                    for (barcode in barcodes) {
-                        val valueType = barcode.valueType
-                        when (valueType) {
-                            Barcode.TYPE_TEXT -> {
-                                result = barcode.rawValue.toString()
-                            }
-                        }
-                    }
-                }
+        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+    }
 
-            }.addOnFailureListener {
-                result = null
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                startCamera()
+            } else {
+                // Permission denied
+                showDialogPermission()
             }
-        Log.d("ScanBarcodeFragment", "result = $result")
+        }
+
+    private fun showDialogPermission() {
+        // Permission denied
+        MaterialAlertDialogBuilder(mContext)
+            .setTitle("Permission required")
+            .setMessage("This application needs to access the camera to process barcodes")
+            .setPositiveButton("Ok") { _, _ ->
+                // Keep asking for permission until granted
+                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+            .setCancelable(false)
+            .create()
+            .apply {
+                setCanceledOnTouchOutside(false)
+                show()
+            }
+    }
+
+    private fun startCamera() {
+        val cameraProvider = ProcessCameraProvider.getInstance(mContext)
+        cameraProvider.addListener({
+            val preview = Preview.Builder().build().also { binding.previewView.surfaceProvider }
+            val imageAnalysis = ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build()
+                .also { it.setAnalyzer(cameraExecutor, BarcodeAnalyzer(mContext)) }
+            // Select back camera as a default
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            cameraProvider.get().unbindAll()
+            cameraProvider.get().bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
+        }, ContextCompat.getMainExecutor(mContext))
+
     }
 
     companion object {
