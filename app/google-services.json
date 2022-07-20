@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "560227916630",
+    "firebase_url": "https://storemanager-af1bb-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "storemanager-af1bb",
+    "storage_bucket": "storemanager-af1bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560227916630:android:00b30a17c624094ae5d4f7",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560227916630-tm51r4t168hhitj83iilb8pjm1p9g3l7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL0ccVCdPAydQkMZ0w9jAZ5ujP_40wz34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "560227916630-tm51r4t168hhitj83iilb8pjm1p9g3l7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
