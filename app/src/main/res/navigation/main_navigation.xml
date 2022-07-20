@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/homeShoesFragment">
+
+    <fragment
+        android:id="@+id/homeShoesFragment"
+        android:name="com.example.myapplication.HomeShoesFragment"
+        android:label="fragment_home_shoes"
+        tools:layout="@layout/fragment_home_shoes" >
+        <action android:id="@+id/actionFromBuyShoes"
+            app:destination="@id/kalixShoesListFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/kalixShoesListFragment"
+        android:name="com.example.myapplication.KalixShoesListFragment"
+        android:label="fragment_kalix_shoes_list"
+        tools:layout="@layout/fragment_kalix_shoes_list" />
+</navigation>
