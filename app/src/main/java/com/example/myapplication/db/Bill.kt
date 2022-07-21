@@ -7,13 +7,15 @@ import java.util.*
 
 @Entity(tableName = "bill")
 data class Bill(
-    @PrimaryKey(autoGenerate = true)
-    val _id: Int,
+    @PrimaryKey
+    val _id: UUID = UUID.randomUUID(),
     @ColumnInfo(name = "bill_code")
-    val billCode: String,
-    val date: Date,
-    val customer: String,
+    val billCode: String = "",
+    val date: String = "",
+    val customer: String = "",
     @ColumnInfo(name = "total_price")
-    val totalPrice: String,
-    val status: String
-)
+    val totalPrice: String = "",
+    val status: String = ""
+) {
+    constructor(customer: String, date: String, totalPrice: String) : this()
+}
