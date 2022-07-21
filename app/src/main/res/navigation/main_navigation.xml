@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeShoesFragment"
-        android:name="com.example.myapplication.HomeShoesFragment"
+        android:name="com.example.myapplication.ui.HomeShoesFragment"
         android:label="fragment_home_shoes"
         tools:layout="@layout/fragment_home_shoes" >
         <action android:id="@+id/actionFromBuyShoes"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/kalixShoesListFragment"
-        android:name="com.example.myapplication.KalixShoesListFragment"
+        android:name="com.example.myapplication.ui.KalixShoesListFragment"
         android:label="fragment_kalix_shoes_list"
         tools:layout="@layout/fragment_kalix_shoes_list" />
 </navigation>

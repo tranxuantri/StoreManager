@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
-import com.example.myapplication.db.AppDatabase
-import com.example.myapplication.db.Product
 import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {

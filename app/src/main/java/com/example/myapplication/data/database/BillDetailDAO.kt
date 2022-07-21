@@ -1,8 +1,9 @@
-package com.example.myapplication.db
+package com.example.myapplication.data.database
 
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.example.myapplication.data.database.model.BillDetail
 
 interface BillDetailDAO {
     @Query("SELECT * FROM bill_detail")

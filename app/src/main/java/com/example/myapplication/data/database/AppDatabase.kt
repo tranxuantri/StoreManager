@@ -1,7 +1,6 @@
-package com.example.myapplication.db
+package com.example.myapplication.data.database
 
 import android.content.Context
-import android.os.Bundle
 import androidx.room.Room
 import androidx.room.RoomDatabase
 

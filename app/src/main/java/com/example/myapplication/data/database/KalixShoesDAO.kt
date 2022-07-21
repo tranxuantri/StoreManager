@@ -1,6 +1,7 @@
-package com.example.myapplication.db
+package com.example.myapplication.data.database
 
 import androidx.room.*
+import com.example.myapplication.data.database.model.KalixShoes
 
 interface KalixShoesDAO {
     @Insert

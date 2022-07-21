@@ -1,16 +1,15 @@
-package com.example.myapplication
+package com.example.myapplication.presentation.bill
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.myapplication.databinding.FragmentCreateBillBinding
-import com.example.myapplication.db.AppDatabase
-import com.example.myapplication.db.Bill
-import com.example.myapplication.db.BillDetail
+import com.example.myapplication.data.database.AppDatabase
+import com.example.myapplication.data.database.model.Bill
+import com.example.myapplication.data.database.model.BillDetail
 import com.google.firebase.database.FirebaseDatabase
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
