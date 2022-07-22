@@ -13,5 +13,5 @@ class BillDetail(
     @ColumnInfo(name = "product_price")
     val productPrice: String,
     @ColumnInfo(name = "product_quantity")
-    val product_quantity: String
+    val productQuantity: String
 )

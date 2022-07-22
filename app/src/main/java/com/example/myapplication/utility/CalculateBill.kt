@@ -7,7 +7,7 @@ class CalculateBill {
         fun calculate(list: List<BillDetail>): Int {
             var sum = 0
             for (bill in list) {
-                sum += bill.product_price.toInt() * bill.product_quantity.toInt()
+                sum += bill.productPrice.toInt() * bill.productQuantity.toInt()
             }
             return sum
         }

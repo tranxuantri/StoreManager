@@ -3,19 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/homeShoesFragment">
+    app:startDestination="@id/dashboardFragment">
+
+<!--    <fragment-->
+<!--        android:id="@+id/container"-->
+<!--        android:name="com.example.myapplication.presentation.ContainerFragment"-->
+<!--        android:label="fragment_container"-->
+<!--        tools:layout="@layout/fragment_container">-->
+<!--        <action-->
+<!--            android:id="@+id/actionFromHome"-->
+<!--            app:destination="@id/dashboardFragment" />-->
+
+<!--        <action-->
+<!--            android:id="@+id/actionFromScan"-->
+<!--            app:destination="@id/scanCodeFragment" />-->
+
+<!--        <action-->
+<!--            android:id="@+id/actionFromCart"-->
+<!--            app:destination="@id/cartFragment" />-->
+<!--    </fragment>-->
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.myapplication.presentation.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/homeShoesFragment"
-        android:name="com.example.myapplication.ui.HomeShoesFragment"
-        android:label="fragment_home_shoes"
-        tools:layout="@layout/fragment_home_shoes" >
-        <action android:id="@+id/actionFromBuyShoes"
-            app:destination="@id/kalixShoesListFragment"/>
-    </fragment>
+        android:id="@+id/scanCodeFragment"
+        android:name="com.example.myapplication.presentation.product.ScanBarcodeFragment"
+        android:label="fragment_scan_bar_code"
+        tools:layout="@layout/fragment_scan_barcode" />
     <fragment
-        android:id="@+id/kalixShoesListFragment"
-        android:name="com.example.myapplication.ui.KalixShoesListFragment"
-        android:label="fragment_kalix_shoes_list"
-        tools:layout="@layout/fragment_kalix_shoes_list" />
+        android:id="@+id/cartFragment"
+        android:name="com.example.myapplication.presentation.cart.ShopppingCartFragment"
+        android:label="fragment_shopping_cart"
+        tools:layout="@layout/fragment_shoppping_cart" />
 </navigation>

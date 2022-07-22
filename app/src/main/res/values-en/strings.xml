@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="customer_name">Customer Name</string>
     <string name="customer_phone">Customer Phone</string>
     <string name="create_bill">Create bill</string>
     <string name="add_bill_detail">Add Product</string>
     <string name="export_bill">Export Bill</string>
     <string name="date_of_bill">Date</string>
+    <string name="home">Home</string>
+    <string name="scan_code">Scan Code</string>
+    <string name="shop_cart">Shop Cart</string>
+    <string name="product_name">Product name:</string>
+    <string name="product_price">Product price:</string>
+    <string name="quantity_in_stock">Quantity in stock:</string>
 
 </resources>

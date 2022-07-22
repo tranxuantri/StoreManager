@@ -5,12 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
-import com.google.firebase.database.FirebaseDatabase
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.example.myapplication.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        val navView: BottomNavigationView = binding.bottomNavView
+        navView.setupWithNavController(navController)
 
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
@@ -21,12 +31,5 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-//        val db = AppDatabase.newInstance(this)
-//        val productDao = db.productDao()
-//        val products: List<Product> = productDao.getAll()
-
-        val db = FirebaseDatabase.getInstance()
-        val reference = db.getReference("message")
-        reference.setValue("Hello World")
     }
 }
