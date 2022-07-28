@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentDashboardBinding
 import com.example.myapplication.domain.model.Product
 import com.google.firebase.database.DataSnapshot
@@ -57,8 +58,11 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("product")
-
-        // Read from the database
+        var listProduct: Map<String, Product> = HashMap()
+        val adapter = ProductListAdapter(listProduct)
+        binding.productListView.adapter = adapter
+        binding.productListView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         // Read from the database
         myRef.addValueEventListener(object : ValueEventListener {
@@ -68,8 +72,10 @@ class DashboardFragment : Fragment() {
                 val typeListOfProducts: Type = object : TypeToken<Map<String,Product?>?>() {}.type
                 val value = dataSnapshot.getValue(Any::class.java)
                 val json: String = Gson().toJson(value)
-                val listProduct:Map<String, Product> = Gson().fromJson(json, typeListOfProducts)
+                listProduct = Gson().fromJson(json, typeListOfProducts)
                 Log.d("TAG", "Value is: $listProduct")
+                adapter.setData(listProduct)
+                adapter.notifyItemRangeChanged(0,listProduct.size)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -77,6 +83,9 @@ class DashboardFragment : Fragment() {
                 Log.w("TAG", "Failed to read value.", error.toException())
             }
         })
+
+
+
     }
 
     override fun onDestroyView() {
