@@ -3,6 +3,7 @@ package com.example.myapplication.presentation
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ProductItemListBinding
 import com.example.myapplication.domain.model.Product
@@ -36,10 +37,14 @@ class ProductListAdapter(list: Map<String, Product>) :
 
     class ProductViewHolder(private val binding: ProductItemListBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(product: Product) {
             Log.d("TAG","product name = ${product.name}")
             binding.productNameTv.text = product.name
             binding.productPriceTv.text = product.price.toString()
+            binding.root.setOnClickListener {
+                Toast.makeText(binding.root.context, "click", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
