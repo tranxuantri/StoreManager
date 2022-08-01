@@ -1,6 +1,6 @@
 package com.example.myapplication.utility
 
-import com.example.myapplication.data.database.model.BillDetail
+import com.example.myapplication.data.network.model.BillDetail
 
 class CalculateBill {
     companion object {

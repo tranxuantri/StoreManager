@@ -1,20 +1,20 @@
 package com.example.myapplication.data.database
 
 import androidx.room.*
-import com.example.myapplication.data.database.model.Product
+import com.example.myapplication.data.database.entity.ProductEntity
 
 @Dao
-interface ProductDAO {
+internal interface ProductDAO {
     @Query("SELECT * FROM product")
-    fun getAll(): List<Product>
+    suspend fun getAll(): List<ProductEntity>
 
-    @Query("SELECT  * FROM product WHERE code IN (:barcode)")
-    fun getProduct(barcode: Int)
+    @Query("SELECT  * FROM product WHERE name IN (:name)")
+    fun getProducts(name: String): List<ProductEntity>
 
     @Insert
-    fun insertProduct(product: Product)
+    fun insertProduct(product: ProductEntity)
 
     @Update
-    fun updateProduct(product: Product)
+    fun updateProduct(product: ProductEntity)
 
 }

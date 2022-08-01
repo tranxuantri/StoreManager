@@ -7,10 +7,13 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ProductItemListBinding
 import com.example.myapplication.domain.model.Product
+import com.example.myapplication.utility.observer
 
 class ProductListAdapter(list: Map<String, Product>) :
     RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>() {
-
+    var products: List<Product> by observer(listOf()) {
+        notifyDataSetChanged()
+    }
     private var productList: Map<String, Product> = list
     private var listKey = productList.keys.toList()
 

@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.myapplication.databinding.FragmentCreateBillBinding
 import com.example.myapplication.data.database.AppDatabase
-import com.example.myapplication.data.database.model.Bill
-import com.example.myapplication.data.database.model.BillDetail
+import com.example.myapplication.data.network.model.Bill
+import com.example.myapplication.data.network.model.BillDetail
 import com.google.firebase.database.FirebaseDatabase
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

@@ -11,7 +11,7 @@ abstract class AppDatabase : RoomDatabase() {
             Room.databaseBuilder(context, AppDatabase::class.java, "store-manager").build()
     }
 
-    abstract fun productDao(): ProductDAO
+    internal abstract fun productDao(): ProductDAO
     abstract fun billDetailDao() : BillDetailDAO
     abstract fun billDao() : BillDAO
 

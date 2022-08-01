@@ -1,14 +1,29 @@
 package com.example.myapplication.data
 
+import com.example.myapplication.data.database.ProductDAO
+import com.example.myapplication.data.network.FirebaseService
 import com.example.myapplication.domain.model.Product
 import com.example.myapplication.domain.repository.ProductRepository
+import com.example.myapplication.utility.convert
+import java.net.UnknownHostException
 
-class ProductRepositoryImpl:ProductRepository {
+internal class ProductRepositoryImpl(
+    private val firebaseService: FirebaseService,
+    private val productDAO: ProductDAO
+) : ProductRepository {
     override suspend fun getProductList(): List<Product> {
-        TODO("Not yet implemented")
+        return try {
+            firebaseService.getListProduct().convert()
+        } catch (e: UnknownHostException) {
+            productDAO.getAll().convert()
+        }
     }
 
-    override suspend fun getProductInfo(code: String): Product {
-        TODO("Not yet implemented")
+    override suspend fun getProductInfo(name: String): List<Product> {
+        return try {
+            firebaseService.getProducts(name).convert()
+        } catch (e: UnknownHostException) {
+            productDAO.getProducts(name).convert()
+        }
     }
 }

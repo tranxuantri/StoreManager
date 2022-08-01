@@ -1,21 +1,18 @@
 package com.example.myapplication.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentDashboardBinding
 import com.example.myapplication.domain.model.Product
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import com.example.myapplication.presentation.product.ProductViewModel
+import com.example.myapplication.utility.observe
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,6 +31,17 @@ class DashboardFragment : Fragment() {
     private var param2: String? = null
 
     private var _binding: FragmentDashboardBinding? = null
+    var listProduct: Map<String, Product> = HashMap()
+
+    private val viewModel: ProductViewModel by viewModels()
+    private val adapter= ProductListAdapter(listProduct)
+    private val stateObserver = Observer<ProductViewModel.ViewState> {
+        adapter.products = it.products
+
+//        binding.progressBar.visible = it.isLoading
+//        binding.errorAnimation.visible = it.isError
+    }
+
     // This property is only valid between onCreateView and
 // onDestroyView.
     private val binding get() = _binding!!
@@ -59,32 +67,15 @@ class DashboardFragment : Fragment() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("product")
         var listProduct: Map<String, Product> = HashMap()
-        val adapter = ProductListAdapter(listProduct)
+
         binding.productListView.adapter = adapter
         binding.productListView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        adapter.setData(listProduct)
+        adapter.notifyItemRangeChanged(0, listProduct.size)
 
-        // Read from the database
-        myRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                val typeListOfProducts: Type = object : TypeToken<Map<String,Product?>?>() {}.type
-                val value = dataSnapshot.getValue(Any::class.java)
-                val json: String = Gson().toJson(value)
-                listProduct = Gson().fromJson(json, typeListOfProducts)
-                Log.d("TAG", "Value is: $listProduct")
-                adapter.setData(listProduct)
-                adapter.notifyItemRangeChanged(0,listProduct.size)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Failed to read value
-                Log.w("TAG", "Failed to read value.", error.toException())
-            }
-        })
-
-
+        observe(viewModel.stateLiveData, stateObserver)
+        viewModel.loadData()
 
     }
 

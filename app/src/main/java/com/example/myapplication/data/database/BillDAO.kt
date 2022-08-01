@@ -4,12 +4,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.myapplication.data.database.model.Bill
+import com.example.myapplication.data.network.model.Bill
 
 @Dao
 interface BillDAO {
     @Query("SELECT * FROM bill")
-    fun getAll():List<Bill>
+    suspend fun getAll():List<Bill>
 
     @Query("SELECT * FROM bill WHERE customer IN (:customerName)")
     fun getBillForCustomer(customerName: String)
