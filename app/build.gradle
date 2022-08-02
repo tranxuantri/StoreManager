@@ -53,6 +53,8 @@ dependencies {
     // Barcode scanning API
     implementation 'com.google.mlkit:barcode-scanning:17.0.2'
     implementation 'com.google.firebase:firebase-database:19.2.1'
+    implementation 'io.insert-koin:koin-androidx-compose:3.2.0'
+
 
     // CameraX library
     def camerax_version = "1.0.1"
@@ -71,6 +73,8 @@ dependencies {
     // live data
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    // Koin for Android
+    implementation 'io.insert-koin:koin-android:3.2.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
