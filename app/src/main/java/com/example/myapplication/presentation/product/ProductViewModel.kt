@@ -23,13 +23,13 @@ internal class ProductViewModel(private val getProductListUseCase: GetProductLis
     private fun getListProduct() {
         viewModelScope.launch {
             getProductListUseCase.execute().also {
-                when {
-                    it is GetProductListUseCase.Result.Success -> sendAction(
+                when (it) {
+                    is GetProductListUseCase.Result.Success -> sendAction(
                         ProductListLoadSuccess(
                             it.data
                         )
                     )
-                    it is GetProductListUseCase.Result.Error -> sendAction(ProductListLoadFailure)
+                    is GetProductListUseCase.Result.Error -> sendAction(ProductListLoadFailure)
                 }
             }
         }

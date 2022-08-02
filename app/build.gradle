@@ -71,9 +71,6 @@ dependencies {
     // live data
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    // kodein
-    implementation("org.kodein.di:kodein-di-generic-jvm:6.5.5")
-    implementation("org.kodein.di:kodein-di-framework-android-x:6.5.5")
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

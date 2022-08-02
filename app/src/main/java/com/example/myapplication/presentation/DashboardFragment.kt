@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentDashboardBinding
 import com.example.myapplication.domain.model.Product
 import com.example.myapplication.presentation.product.ProductViewModel
-import com.example.myapplication.utility.observe
 import com.google.firebase.database.FirebaseDatabase
 
 
@@ -25,18 +24,17 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DashboardFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DashboardFragment : Fragment() {
+class DashboardFragment : InjectionFragment(R.layout.fragment_dashboard) {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private var _binding: FragmentDashboardBinding? = null
-    var listProduct: Map<String, Product> = HashMap()
+//    private val viewModel: ProductViewModel by instance()
+//    private val productAdapter:ProductListAdapter by instance()
 
-    private val viewModel: ProductViewModel by viewModels()
-    private val adapter= ProductListAdapter(listProduct)
     private val stateObserver = Observer<ProductViewModel.ViewState> {
-        adapter.products = it.products
+//        productAdapter.products = it.products
 
 //        binding.progressBar.visible = it.isLoading
 //        binding.errorAnimation.visible = it.isError
@@ -68,14 +66,13 @@ class DashboardFragment : Fragment() {
         val myRef = database.getReference("product")
         var listProduct: Map<String, Product> = HashMap()
 
-        binding.productListView.adapter = adapter
-        binding.productListView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        adapter.setData(listProduct)
-        adapter.notifyItemRangeChanged(0, listProduct.size)
+        binding.productListView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//            adapter = productAdapter
+        }
 
-        observe(viewModel.stateLiveData, stateObserver)
-        viewModel.loadData()
+//        observe(viewModel.stateLiveData, stateObserver)
+//        viewModel.loadData()
 
     }
 
