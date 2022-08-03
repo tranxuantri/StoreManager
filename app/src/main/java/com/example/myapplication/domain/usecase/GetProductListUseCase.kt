@@ -6,6 +6,12 @@ import java.io.IOException
 
 internal class GetProductListUseCase(private val productRepository: ProductRepository) {
 
+//    companion object {
+//        fun newInstance(): GetProductListUseCase {
+//            return GetProductListUseCase()
+//        }
+//    }
+
     sealed interface Result {
         data class Success(val data: List<Product>) : Result
         data class Error(val e: Throwable) : Result

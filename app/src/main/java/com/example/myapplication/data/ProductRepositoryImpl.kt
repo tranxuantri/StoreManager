@@ -1,5 +1,6 @@
 package com.example.myapplication.data
 
+import com.example.myapplication.data.database.AppDatabase
 import com.example.myapplication.data.database.ProductDAO
 import com.example.myapplication.data.network.FirebaseService
 import com.example.myapplication.domain.model.Product
@@ -9,13 +10,13 @@ import java.net.UnknownHostException
 
 internal class ProductRepositoryImpl(
     private val firebaseService: FirebaseService,
-    private val productDAO: ProductDAO
+    private val appDatabase: AppDatabase
 ) : ProductRepository {
     override suspend fun getProductList(): List<Product> {
         return try {
             firebaseService.getListProduct().convert()
         } catch (e: UnknownHostException) {
-            productDAO.getAll().convert()
+            appDatabase.productDao().getAll().convert()
         }
     }
 
@@ -23,7 +24,7 @@ internal class ProductRepositoryImpl(
         return try {
             firebaseService.getProducts(name).convert()
         } catch (e: UnknownHostException) {
-            productDAO.getProducts(name).convert()
+            appDatabase.productDao().getProducts(name).convert()
         }
     }
 }

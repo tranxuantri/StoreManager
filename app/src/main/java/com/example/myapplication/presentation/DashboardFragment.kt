@@ -7,14 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentDashboardBinding
-import com.example.myapplication.domain.model.Product
 import com.example.myapplication.presentation.product.ProductViewModel
 import com.example.myapplication.utility.observe
-import com.google.firebase.database.FirebaseDatabase
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -33,7 +29,7 @@ class DashboardFragment : Fragment() {
     private var param2: String? = null
 
     private var _binding: FragmentDashboardBinding? = null
-    private val viewModel: ProductViewModel = viewModel<ProductViewModel>().value
+    private val viewModel: ProductViewModel by viewModels()
     private val productAdapter:ProductListAdapter = ProductListAdapter()
 
     private val stateObserver = Observer<ProductViewModel.ViewState> {

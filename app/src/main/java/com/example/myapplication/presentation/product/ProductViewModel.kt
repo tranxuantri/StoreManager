@@ -12,28 +12,30 @@ import com.example.myapplication.presentation.product.ProductViewModel.Action.Pr
 import com.example.myapplication.presentation.product.ProductViewModel.Action.ProductListLoadFailure
 
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-internal class ProductViewModel :
-    BaseViewModel<ViewState, Action>(ViewState()), KoinComponent {
-    private val getProductListUseCase by inject<GetProductListUseCase>()
+internal class ProductViewModel() :
+    BaseViewModel<ViewState, Action>(ViewState()) {
+
+    private val getProductListUseCase = GetProductListUseCase()
+
+//    private val getProductListUseCase by inject<GetProductListUseCase>()
     override fun onLoadData() {
         getListProduct()
     }
 
     private fun getListProduct() {
         viewModelScope.launch {
-            getProductListUseCase.execute().also {
-                when (it) {
-                    is GetProductListUseCase.Result.Success -> sendAction(
-                        ProductListLoadSuccess(
-                            it.data
-                        )
-                    )
-                    is GetProductListUseCase.Result.Error -> sendAction(ProductListLoadFailure)
-                }
-            }
+//            getProductListUseCase.execute().also {
+//                when (it) {
+//                    is GetProductListUseCase.Result.Success -> sendAction(
+//                        ProductListLoadSuccess(
+//                           it.data
+//
+//                        )
+//                    )
+//                    is GetProductListUseCase.Result.Error -> sendAction(ProductListLoadFailure)
+//                }
+//            }
         }
     }
 
