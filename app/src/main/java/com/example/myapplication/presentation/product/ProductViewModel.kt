@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.product
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.domain.model.Product
 import com.example.myapplication.domain.usecase.GetProductListUseCase
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 internal class ProductViewModel() :
     BaseViewModel<ViewState, Action>(ViewState()) {
 
-    private val getProductListUseCase = GetProductListUseCase()
+//    private val getProductListUseCase = GetProductListUseCase()
 
 //    private val getProductListUseCase by inject<GetProductListUseCase>()
     override fun onLoadData() {

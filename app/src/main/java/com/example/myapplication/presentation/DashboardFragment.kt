@@ -5,51 +5,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.data.network.ProductApiService
+import com.example.myapplication.data.network.model.ProductJson
 import com.example.myapplication.databinding.FragmentDashboardBinding
-import com.example.myapplication.presentation.product.ProductViewModel
-import com.example.myapplication.utility.observe
-
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.example.myapplication.domain.model.Product
+import com.example.myapplication.utility.convert
+import com.example.myapplication.utility.convertToList
+import com.google.gson.GsonBuilder
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 
 /**
  * A simple [Fragment] subclass.
- * Use the [DashboardFragment.newInstance] factory method to
+ * Use the [DashboardFragment] factory method to
  * create an instance of this fragment.
  */
-class DashboardFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class DashboardFragment : Fragment(), Callback<Map<String,ProductJson>> {
 
     private var _binding: FragmentDashboardBinding? = null
-    private val viewModel: ProductViewModel by viewModels()
-    private val productAdapter:ProductListAdapter = ProductListAdapter()
 
-    private val stateObserver = Observer<ProductViewModel.ViewState> {
-        productAdapter.products = it.products
+    private var listProduct: List<Product> = ArrayList()
+    private val productAdapter: ProductListAdapter = ProductListAdapter()
 
-//        binding.progressBar.visible = it.isLoading
-//        binding.errorAnimation.visible = it.isError
-    }
-
-    // This property is only valid between onCreateView and
-// onDestroyView.
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,8 +53,30 @@ class DashboardFragment : Fragment() {
             adapter = productAdapter
         }
 
-        observe(viewModel.stateLiveData, stateObserver)
-        viewModel.loadData()
+        val httpLogging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        val interceptor = Interceptor { chain ->
+            val original = chain.request()
+            val request = original.newBuilder()
+                .method(original.method, original.body)
+                .build()
+            chain.proceed(request)
+        }
+
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(httpLogging)
+            .addInterceptor(interceptor)
+            .build()
+        val gson =GsonBuilder().setLenient().create()
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://storemanager-af1bb-default-rtdb.asia-southeast1.firebasedatabase.app")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(okHttpClient)
+            .build()
+            .create(ProductApiService::class.java)
+        val call:Call<Map<String,ProductJson>> = retrofit.getProductList()
+        call.enqueue(this)
 
     }
 
@@ -77,23 +85,13 @@ class DashboardFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DashboardFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DashboardFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onResponse(call: Call<Map<String,ProductJson>>, response: Response<Map<String,ProductJson>>) {
+        Timber.d(response.body().toString())
+        listProduct = response.body()?.convertToList()?.convert() ?: ArrayList()
+        productAdapter.products = listProduct
+    }
+
+    override fun onFailure(call: Call<Map<String,ProductJson>>, t: Throwable) {
+        Timber.d("Error $t")
     }
 }

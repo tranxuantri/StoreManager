@@ -1,16 +1,19 @@
 package com.example.myapplication
 
 import android.app.Application
-//import com.example.myapplication.di.appModule
+import timber.log.Timber
+
+//import android.app.Application
+//import dagger.hilt.android.HiltAndroidApp
+//import timber.log.Timber
 //
-//class App : Application() {
-//
-//    override fun onCreate() {
-//        super.onCreate()
-//        // Init DI
-//        startKoin {
-//            androidContext(this@App)
-//            modules(appModule)
-//        }
-//    }
-//}
+//@HiltAndroidApp
+class App : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+    }
+}

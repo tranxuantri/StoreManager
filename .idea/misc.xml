@@ -4,12 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Project/StoreManager/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Project/StoreManager/app/src/main/res/layout/example_constraint.xml" value="0.1578125" />
+        <entry key="..\:/Project/StoreManager/app/src/main/res/layout/example_layout.xml" value="0.1578125" />
         <entry key="..\:/Project/StoreManager/app/src/main/res/layout/fragment_container.xml" value="0.25416666666666665" />
         <entry key="..\:/Project/StoreManager/app/src/main/res/layout/fragment_create_bill.xml" value="0.2" />
         <entry key="..\:/Project/StoreManager/app/src/main/res/layout/fragment_dashboard.xml" value="0.176" />
         <entry key="..\:/Project/StoreManager/app/src/main/res/layout/fragment_home_shoes.xml" value="0.25416666666666665" />
         <entry key="..\:/Project/StoreManager/app/src/main/res/layout/fragment_scan_barcode.xml" value="0.25416666666666665" />
         <entry key="..\:/Project/StoreManager/app/src/main/res/layout/fragment_shoppping_cart.xml" value="0.24010416666666667" />
+        <entry key="..\:/Project/StoreManager/app/src/main/res/layout/item_kalix_shoes.xml" value="0.4" />
         <entry key="..\:/Project/StoreManager/app/src/main/res/layout/product_item_list.xml" value="0.4" />
         <entry key="..\:/Project/StoreManager/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.253125" />
         <entry key="..\:/Project/app/src/main/res/layout/activity_main.xml" value="0.25" />

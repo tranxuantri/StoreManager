@@ -11,9 +11,7 @@ import timber.log.Timber
 
 class ProductListAdapter :
     RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>() {
-    var products: List<Product> by observer(listOf()) {
-        notifyDataSetChanged()
-    }
+    var products: List<Product> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

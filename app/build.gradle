@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -53,7 +54,6 @@ dependencies {
     // Barcode scanning API
     implementation 'com.google.mlkit:barcode-scanning:17.0.2'
     implementation 'com.google.firebase:firebase-database:19.2.1'
-//    implementation 'io.insert-koin:koin-androidx-compose:3.2.0'
 
 
     // CameraX library
@@ -74,8 +74,14 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.5.1"
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    // Koin for Android
-//    implementation 'io.insert-koin:koin-android:3.2.0'
+    // Retrofit and relevant converters
+    implementation 'com.squareup.retrofit2:retrofit:2.8.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+    // Hilt for android
+    implementation("com.google.dagger:hilt-android:2.38.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
