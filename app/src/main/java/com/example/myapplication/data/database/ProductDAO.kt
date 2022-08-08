@@ -4,7 +4,7 @@ import androidx.room.*
 import com.example.myapplication.data.database.entity.ProductEntity
 
 @Dao
-internal interface ProductDAO {
+interface ProductDAO {
     @Query("SELECT * FROM product")
     suspend fun getAll(): List<ProductEntity>
 
@@ -16,5 +16,8 @@ internal interface ProductDAO {
 
     @Update
     fun updateProduct(product: ProductEntity)
+
+//    @Delete
+//    fun deleteAll()
 
 }

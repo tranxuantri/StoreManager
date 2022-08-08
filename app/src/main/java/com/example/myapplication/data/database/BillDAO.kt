@@ -8,15 +8,15 @@ import com.example.myapplication.data.network.model.Bill
 
 @Dao
 interface BillDAO {
-    @Query("SELECT * FROM bill")
-    suspend fun getAll():List<Bill>
-
-    @Query("SELECT * FROM bill WHERE customer IN (:customerName)")
-    fun getBillForCustomer(customerName: String)
-
-    @Insert
-    fun insertBill(bill: Bill)
-
-    @Update
-    fun updateBill(bill: Bill)
+//    @Query("SELECT * FROM bill")
+//    suspend fun getAll():List<Bill>
+//
+//    @Query("SELECT * FROM bill WHERE customer IN (:customerName)")
+//    fun getBillForCustomer(customerName: String)
+//
+//    @Insert
+//    fun insertBill(bill: Bill)
+//
+//    @Update
+//    fun updateBill(bill: Bill)
 }

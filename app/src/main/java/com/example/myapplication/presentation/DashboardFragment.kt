@@ -5,22 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.data.network.ProductApiService
-import com.example.myapplication.data.network.model.ProductJson
 import com.example.myapplication.databinding.FragmentDashboardBinding
 import com.example.myapplication.domain.model.Product
-import com.example.myapplication.utility.convert
-import com.example.myapplication.utility.convertToList
-import com.google.gson.GsonBuilder
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.myapplication.presentation.product.ProductViewModel
 import timber.log.Timber
 
 /**
@@ -28,7 +17,7 @@ import timber.log.Timber
  * Use the [DashboardFragment] factory method to
  * create an instance of this fragment.
  */
-class DashboardFragment : Fragment(), Callback<Map<String,ProductJson>> {
+class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
 
@@ -36,7 +25,7 @@ class DashboardFragment : Fragment(), Callback<Map<String,ProductJson>> {
     private val productAdapter: ProductListAdapter = ProductListAdapter()
 
     private val binding get() = _binding!!
-
+    private val model: ProductViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,45 +42,15 @@ class DashboardFragment : Fragment(), Callback<Map<String,ProductJson>> {
             adapter = productAdapter
         }
 
-        val httpLogging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+        model.getProductListResult().observe(viewLifecycleOwner) { result ->
+            productAdapter.products = result
+            productAdapter.notifyDataSetChanged()
+            Timber.d("observe")
         }
-        val interceptor = Interceptor { chain ->
-            val original = chain.request()
-            val request = original.newBuilder()
-                .method(original.method, original.body)
-                .build()
-            chain.proceed(request)
-        }
-
-        val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(httpLogging)
-            .addInterceptor(interceptor)
-            .build()
-        val gson =GsonBuilder().setLenient().create()
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://storemanager-af1bb-default-rtdb.asia-southeast1.firebasedatabase.app")
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .client(okHttpClient)
-            .build()
-            .create(ProductApiService::class.java)
-        val call:Call<Map<String,ProductJson>> = retrofit.getProductList()
-        call.enqueue(this)
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onResponse(call: Call<Map<String,ProductJson>>, response: Response<Map<String,ProductJson>>) {
-        Timber.d(response.body().toString())
-        listProduct = response.body()?.convertToList()?.convert() ?: ArrayList()
-        productAdapter.products = listProduct
-    }
-
-    override fun onFailure(call: Call<Map<String,ProductJson>>, t: Throwable) {
-        Timber.d("Error $t")
     }
 }

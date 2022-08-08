@@ -4,11 +4,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.myapplication.domain.model.Product
+import java.util.*
 
 @Entity(tableName = "product")
 data class ProductEntity(
-    @PrimaryKey(autoGenerate = true)
-    val _id: Int,
+    @PrimaryKey
+    val _id: UUID = UUID.randomUUID(),
     val name: String,
     val code: String,
     val price: Int,

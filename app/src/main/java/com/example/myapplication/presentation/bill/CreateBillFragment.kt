@@ -77,10 +77,10 @@ class CreateBillFragment : Fragment() {
     }
     private fun saveBillToDb() {
         db.runInTransaction {
-            db.billDao().insertBill(bill)
-            for (billDetail in billDetailList) {
-                db.billDetailDao().insertBillDetail(billDetail)
-            }
+//            db.billDao().insertBill(bill)
+//            for (billDetail in billDetailList) {
+//                db.billDetailDao().insertBillDetail(billDetail)
+//            }
         }
 
     }

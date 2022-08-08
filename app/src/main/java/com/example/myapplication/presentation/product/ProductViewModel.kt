@@ -1,67 +1,61 @@
 package com.example.myapplication.presentation.product
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.example.myapplication.data.network.ProductApiService
+import com.example.myapplication.data.network.model.ProductJson
 import com.example.myapplication.domain.model.Product
-import com.example.myapplication.domain.usecase.GetProductListUseCase
-import com.example.myapplication.presentation.viewmodel.BaseAction
-import com.example.myapplication.presentation.viewmodel.BaseViewModel
-import com.example.myapplication.presentation.viewmodel.BaseViewState
-import com.example.myapplication.presentation.product.ProductViewModel.ViewState
-import com.example.myapplication.presentation.product.ProductViewModel.Action
-import com.example.myapplication.presentation.product.ProductViewModel.Action.ProductListLoadSuccess
-import com.example.myapplication.presentation.product.ProductViewModel.Action.ProductListLoadFailure
+import com.example.myapplication.utility.convert
+import com.example.myapplication.utility.convertToList
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 
-import kotlinx.coroutines.launch
-
-internal class ProductViewModel() :
-    BaseViewModel<ViewState, Action>(ViewState()) {
-
-//    private val getProductListUseCase = GetProductListUseCase()
-
-//    private val getProductListUseCase by inject<GetProductListUseCase>()
-    override fun onLoadData() {
-        getListProduct()
+class ProductViewModel : ViewModel() {
+    val product: MutableLiveData<List<Product>> by lazy {
+        MutableLiveData<List<Product>>()
     }
 
-    private fun getListProduct() {
-        viewModelScope.launch {
-//            getProductListUseCase.execute().also {
-//                when (it) {
-//                    is GetProductListUseCase.Result.Success -> sendAction(
-//                        ProductListLoadSuccess(
-//                           it.data
-//
-//                        )
-//                    )
-//                    is GetProductListUseCase.Result.Error -> sendAction(ProductListLoadFailure)
-//                }
-//            }
+    init {
+        callApi()
+    }
+
+    fun getProductListResult(): LiveData<List<Product>> = product
+    private fun callApi() {
+        callbackProductList = CallBackListProduct(product)
+        callApiGetListProduct()
+    }
+
+    private fun callApiGetListProduct() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://storemanager-af1bb-default-rtdb.asia-southeast1.firebasedatabase.app")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ProductApiService::class.java)
+        val call: Call<Map<String, ProductJson>> = retrofit.getProductList()
+        call.enqueue(callbackProductList)
+    }
+
+    private var callbackProductList = CallBackListProduct(product)
+
+    class CallBackListProduct(private val product: MutableLiveData<List<Product>>) :
+        Callback<Map<String, ProductJson>> {
+        override fun onResponse(
+            call: Call<Map<String, ProductJson>>,
+            response: Response<Map<String, ProductJson>>
+        ) {
+            Timber.d("onResponse")
+            product.postValue(
+                response.body()?.convertToList()?.convert()?.toMutableList() ?: ArrayList()
+            )
         }
-    }
 
-    override fun onReduceState(viewAction: Action) = when (viewAction) {
-        is ProductListLoadSuccess -> state.copy(
-            isLoading = false,
-            isError = false,
-            products = viewAction.products
-        )
-        is ProductListLoadFailure -> state.copy(
-            isLoading = false,
-            isError = true,
-            products = ArrayList()
-        )
-    }
-
-    internal data
-    class ViewState(
-        val isLoading: Boolean = true,
-        val isError: Boolean = false,
-        val products: List<Product> = ArrayList()
-    ) : BaseViewState
-
-    internal sealed interface Action : BaseAction {
-        class ProductListLoadSuccess(val products: List<Product>) : Action
-        object ProductListLoadFailure : Action
+        override fun onFailure(call: Call<Map<String, ProductJson>>, t: Throwable) {
+            Timber.d("Error $t")
+        }
     }
 }
