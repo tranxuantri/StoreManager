@@ -5,23 +5,6 @@
     android:id="@+id/main_navigation"
     app:startDestination="@id/dashboardFragment">
 
-<!--    <fragment-->
-<!--        android:id="@+id/container"-->
-<!--        android:name="com.example.myapplication.presentation.ContainerFragment"-->
-<!--        android:label="fragment_container"-->
-<!--        tools:layout="@layout/fragment_container">-->
-<!--        <action-->
-<!--            android:id="@+id/actionFromHome"-->
-<!--            app:destination="@id/dashboardFragment" />-->
-
-<!--        <action-->
-<!--            android:id="@+id/actionFromScan"-->
-<!--            app:destination="@id/scanCodeFragment" />-->
-
-<!--        <action-->
-<!--            android:id="@+id/actionFromCart"-->
-<!--            app:destination="@id/cartFragment" />-->
-<!--    </fragment>-->
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.example.myapplication.presentation.DashboardFragment"
@@ -35,7 +18,7 @@
         tools:layout="@layout/fragment_scan_barcode" />
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.example.myapplication.presentation.cart.ShopppingCartFragment"
+        android:name="com.example.myapplication.presentation.cart.ShoppingCartFragment"
         android:label="fragment_shopping_cart"
         tools:layout="@layout/fragment_shoppping_cart" />
 </navigation>

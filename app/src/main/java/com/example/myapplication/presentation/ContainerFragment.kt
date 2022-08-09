@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentContainerBinding
+import com.example.myapplication.presentation.cart.ShoppingCartFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
@@ -43,6 +44,10 @@ class ContainerFragment : Fragment() {
         val navController = navHostFragment.navController
         val navView: BottomNavigationView = binding.bottomNavView
         navView.setupWithNavController(navController)
+        when (navHostFragment.childFragmentManager.fragments[0]) {
+            is DashboardFragment -> binding.toolbar.title = "DashBoard"
+            is ShoppingCartFragment -> binding.toolbar.title = "Shopping Cart"
+        }
     }
 
     companion object {

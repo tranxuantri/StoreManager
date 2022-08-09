@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.MainActivity
 import com.example.myapplication.databinding.FragmentDashboardBinding
 import com.example.myapplication.domain.model.Product
 import com.example.myapplication.presentation.product.ProductViewModel
@@ -26,6 +28,12 @@ class DashboardFragment : Fragment() {
 
     private val binding get() = _binding!!
     private val model: ProductViewModel by viewModels()
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainActivity) {
+            context.title = "Dashboard"
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,7 +56,10 @@ class DashboardFragment : Fragment() {
             Timber.d("observe")
         }
     }
-
+    override fun onResume() {
+        super.onResume()
+        activity?.title  = "Dashboard"
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
